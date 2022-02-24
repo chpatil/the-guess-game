@@ -12,22 +12,33 @@ import random
 print(art.logo)
 print ("I'm thinking of a number between 1 and 100.")
 NUMBER_CHOICE=random.randint(0,100)
-HARD_ATTEMPT=5
-EASY_ATTEMPT=10
-def easy_attempt():
+def attempt(difficulty):
   failure_flag=True
-  print("You have 10 attempts remaining to guess the number.")
-  while(failure_flag):
-    guess=input("Make a guess: ")
+  HARD_ATTEMPT=5
+  EASY_ATTEMPT=10
+  attempt=0
+  if(difficulty=="hard"):
+    print("You have 5 attempts remaining to guess the number.")
+    attempt=HARD_ATTEMPT
+  else:
+    print("You have 10 attempts remaining to guess the number.")
+    attempt=EASY_ATTEMPT
+  while(failure_flag and attempt!=0):
+    guess=int(input("Make a guess: "))
     if(guess<NUMBER_CHOICE):
+      attempt-=1
+      print(f"You have {attempt} attempts remaining to guess the number.")
       print("Too low.")
       print("Guess again.")
     elif(guess>NUMBER_CHOICE):
+      attempt-=1
+      print(f"You have {attempt} attempts remaining to guess the number.")
       print("Too high.")
       print("Guess again.")
     elif(guess==NUMBER_CHOICE):
       print(f"You got it! The answer was {NUMBER_CHOICE}.")
-      
-      
-    
+      failure_flag=False
+  if(attempt==0):
+    print("You've run out of guesses, you lose.")
 
+attempt(input("Choose a difficulty. Type 'easy' or 'hard': "))
